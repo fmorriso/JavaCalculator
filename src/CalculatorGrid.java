@@ -115,22 +115,22 @@ public class CalculatorGrid extends JPanel
         switch (text)
         {
             case "+":
-                button.addActionListener((ActionEvent e) -> addButtonClick(button));
+                button.addActionListener((ActionEvent e) -> mathOperationClick(button));
                 button.setOperation(ButtonOperation.Add);
                 break;
 
             case "-":
-                button.addActionListener((ActionEvent e) -> subtractButtonClick(button));
+                button.addActionListener((ActionEvent e) -> mathOperationClick(button));
                 button.setOperation(ButtonOperation.Subtract);
                 break;
 
             case "*":
-                button.addActionListener((ActionEvent e) -> multiplyButtonClick(button));
+                button.addActionListener((ActionEvent e) -> mathOperationClick(button));
                 button.setOperation(ButtonOperation.Multiply);
                 break;
 
             case "/":
-                button.addActionListener((ActionEvent e) -> divideButtonClick(button));
+                button.addActionListener((ActionEvent e) -> mathOperationClick(button));
                 button.setOperation(ButtonOperation.Divide);
                 break;
 
@@ -176,6 +176,7 @@ public class CalculatorGrid extends JPanel
         // get the input area as a number
         String input = inputLabel.getText();
         currentInput = Double.parseDouble(input);
+        System.out.println("currentInput=" + currentInput + ", result=" + result);
     }
 
     private void performLastOperation()
@@ -198,7 +199,10 @@ public class CalculatorGrid extends JPanel
             case DecimalPoint:
             case Equal:
             case Clear:
+                break;
+
             case Unknown:
+                result = currentInput;
                 break;
         }
     }
@@ -208,30 +212,14 @@ public class CalculatorGrid extends JPanel
         appendToInput(button.getText());
     }
 
-    private void divideButtonClick(CalculatorButton button)
-    {
-        //appendToInput(button.getText());
-    }
-
-    private void multiplyButtonClick(CalculatorButton button)
-    {
-        //appendToInput(button.getText());
-    }
-
-    private void subtractButtonClick(CalculatorButton button)
-    {
-        //appendToInput(button.getText());
-    }
-
-    private void addButtonClick(CalculatorButton button)
+    // generic method that works for +, -, * and /
+    private void mathOperationClick(CalculatorButton button)
     {
         // Get the last input value
-        //String input = inputLabel.getText();
-        //currentInput = Double.parseDouble(input);
         getLastInput();
 
-        // add it to the result
-        result += currentInput;
+        // perform any previous operation that might be pending
+        performLastOperation();
 
         // display as a formula in the results area
         appendToResults(" " + convertDoubleToMoneyString(currentInput) + " " + button.getText());
