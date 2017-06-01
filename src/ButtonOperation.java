@@ -1,6 +1,4 @@
-/**
- * Created by fpmor on 6/1/2017.
- */
+// Available operations for the calculator
 public enum ButtonOperation
 {
     Unknown,
@@ -11,5 +9,4 @@ public enum ButtonOperation
     DecimalPoint,
     Equal,
     Clear
-
 }

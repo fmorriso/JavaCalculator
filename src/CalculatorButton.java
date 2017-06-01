@@ -1,11 +1,10 @@
 import javax.swing.*;
 
-/**
- * Created by fpmor on 6/1/2017.
- */
+// extended JButton that remembers which calculator operation it performs
 public class CalculatorButton extends JButton
 {
     private ButtonOperation operation;
+
     public CalculatorButton()
     {
         super();
@@ -36,7 +35,8 @@ public class CalculatorButton extends JButton
         operation = ButtonOperation.Unknown;
     }
 
-    public void setOperation(ButtonOperation operation){
+    public void setOperation(ButtonOperation operation)
+    {
         this.operation = operation;
     }
 

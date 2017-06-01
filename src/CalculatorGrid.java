@@ -255,21 +255,16 @@ public class CalculatorGrid extends JPanel
         GridLayout gridLayout = new GridLayout(0, 2);
         JPanel panel = new JPanel();
         panel.setLayout(gridLayout);
-        //Dimension bottomSize = new Dimension(BTN_WIDTH * 4, BTN_HEIGHT / 10);
-        //panel.setPreferredSize(bottomSize);
-        //panel.setMaximumSize(bottomSize);
 
         CalculatorButton btnClear = new CalculatorButton("Clear");
         btnClear.setFont(BTN_FONT);
         btnClear.setPreferredSize(BTN_SIZE);
-        //btnClear.setMaximumSize(BTN_SIZE);
         btnClear.addActionListener((ActionEvent e) -> clearButtonClick());
         panel.add(btnClear);
 
         CalculatorButton btnExit = new CalculatorButton("Quit");
         btnExit.setFont(BTN_FONT);
         btnExit.setPreferredSize(BTN_SIZE);
-        //btnExit.setMaximumSize(BTN_SIZE);
         btnExit.addActionListener(
                 (ActionEvent e) -> System.exit(0)
         );

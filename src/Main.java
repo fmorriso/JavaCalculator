@@ -15,7 +15,7 @@ public class Main
         JFrame frame = new JFrame("Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new GridLayout(1, 1));
-        Dimension size = new Dimension(xSize / 3,  ySize * 2 / 3);
+        Dimension size = new Dimension(xSize / 3, ySize * 2 / 3);
         frame.setSize(size);
         frame.setPreferredSize(size);
         frame.getContentPane().add(new CalculatorGrid(frame));
