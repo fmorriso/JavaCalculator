@@ -7,8 +7,6 @@ import java.awt.event.*;
  */
 public class CalculatorGrid extends JPanel
 {
-    //private final int numRows = 0; // allow unlimited number of rows
-    //private final int numCols = 4;
     // Rows of buttons, arranged left-to-right in each row
     // as a two-dimensional array
     private static final String[][] BUTTON_TEXTS = {
@@ -19,13 +17,13 @@ public class CalculatorGrid extends JPanel
     };
     private static final Font BTN_FONT = new Font(Font.SANS_SERIF, Font.BOLD, 32);
     private static final int BTN_WIDTH = 20;
-    private static final int BTN_HEIGHT = 40;
+    private static final int BTN_HEIGHT = 30;
     private static final Dimension BTN_SIZE = new Dimension(BTN_WIDTH, BTN_HEIGHT);
 
     public CalculatorGrid()
     {
         this.setLayout(new GridLayout(0, 1));
-
+        this.setPreferredSize(new Dimension(500, 350));
 
         this.add(generateCalculatorButtonPanel());
         this.add(generateControlPanel());
@@ -55,23 +53,35 @@ public class CalculatorGrid extends JPanel
 
     private JPanel generateControlPanel()
     {
-        GridLayout controlGridLayout = new GridLayout(1, 4, 0, 10);
+        GridLayout controlGridLayout = new GridLayout(0, 4);
         JPanel panel = new JPanel();
         panel.setLayout(controlGridLayout);
-        Dimension bottomSize = new Dimension(BTN_WIDTH * 2, BTN_HEIGHT / 4);
-        panel.setPreferredSize(bottomSize);
-        panel.setMaximumSize(bottomSize);
+        //Dimension bottomSize = new Dimension(BTN_WIDTH * 4, BTN_HEIGHT / 10);
+        //panel.setPreferredSize(bottomSize);
+        //panel.setMaximumSize(bottomSize);
 
         JButton btnClear = new JButton("Clear");
         btnClear.setFont(BTN_FONT);
-        btnClear.setPreferredSize(bottomSize);
-        btnClear.setMaximumSize(bottomSize);
+        btnClear.setPreferredSize(BTN_SIZE);
+        //btnClear.setMaximumSize(BTN_SIZE);
         panel.add(btnClear);
+
+        JButton btnClearEntry = new JButton("CE");
+        btnClearEntry.setFont(BTN_FONT);
+        btnClearEntry.setPreferredSize(BTN_SIZE);
+        //btnClearEntry.setMaximumSize(BTN_SIZE);
+        panel.add(btnClearEntry);
+
+        JButton btnSave = new JButton("Save");
+        btnSave.setFont(BTN_FONT);
+        btnSave.setPreferredSize(BTN_SIZE);
+        //btnSave.setMaximumSize(BTN_SIZE);
+        panel.add(btnSave );
 
         JButton btnExit = new JButton("Quit");
         btnExit.setFont(BTN_FONT);
-        btnExit.setPreferredSize(bottomSize);
-        btnExit.setMaximumSize(bottomSize);
+        btnExit.setPreferredSize(BTN_SIZE);
+        //btnExit.setMaximumSize(BTN_SIZE);
         btnExit.addActionListener(
                 (ActionEvent e) -> System.exit(0)
         );
