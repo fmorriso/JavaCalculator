@@ -15,7 +15,7 @@ public class CalculatorGrid extends JPanel
     };
     private static final Font BTN_FONT = new Font(Font.SANS_SERIF, Font.BOLD, 32);
     private static final int BTN_WIDTH = 20;
-    private static final int BTN_HEIGHT = 30;
+    private static final int BTN_HEIGHT = 40;
     private static final Dimension BTN_SIZE = new Dimension(BTN_WIDTH, BTN_HEIGHT);
 
     private JLabel resultsLabel;
@@ -26,10 +26,10 @@ public class CalculatorGrid extends JPanel
     private ButtonOperation lastOperation = ButtonOperation.Unknown;
 
 
-    public CalculatorGrid()
+    public CalculatorGrid(JFrame frame)
     {
         this.setLayout(new GridLayout(0, 1));
-        this.setPreferredSize(new Dimension(500, 350));
+        this.setPreferredSize(frame.getSize());
 
         this.add(generateInputDisplayPanel());
         this.add(generateResultsPanel());
@@ -63,11 +63,12 @@ public class CalculatorGrid extends JPanel
         return panel;
     }
 
+    // determine if the specified string is an integer number
     private static boolean isInteger(String text)
     {
         try
         {
-            int i = Integer.parseInt(text);
+            int i = Integer.parseInt(text.trim());
         } catch (NumberFormatException ex)
         {
             return false;
@@ -75,6 +76,7 @@ public class CalculatorGrid extends JPanel
         return true;
     }
 
+    // generate the calculator buttons sub-panel
     private JPanel generateCalculatorButtonPanel()
     {
         final int numRows = BUTTON_TEXTS.length;
@@ -176,9 +178,11 @@ public class CalculatorGrid extends JPanel
         // get the input area as a number
         String input = inputLabel.getText();
         currentInput = Double.parseDouble(input);
-        System.out.println("currentInput=" + currentInput + ", result=" + result);
+        //System.out.println("currentInput=" + currentInput + ", result=" + result);
     }
 
+    // If there is a pending last operation, perform it.
+    // For the special case of first-time, we simply capture the input as the current result
     private void performLastOperation()
     {
         switch (lastOperation)
@@ -186,12 +190,15 @@ public class CalculatorGrid extends JPanel
             case Add:
                 result += currentInput;
                 break;
+
             case Subtract:
                 result -= currentInput;
                 break;
+
             case Multiply:
                 result *= currentInput;
                 break;
+
             case Divide:
                 result /= currentInput;
                 break;
@@ -245,7 +252,7 @@ public class CalculatorGrid extends JPanel
 
     private JPanel generateControlPanel()
     {
-        GridLayout gridLayout = new GridLayout(0, 4);
+        GridLayout gridLayout = new GridLayout(0, 2);
         JPanel panel = new JPanel();
         panel.setLayout(gridLayout);
         //Dimension bottomSize = new Dimension(BTN_WIDTH * 4, BTN_HEIGHT / 10);
@@ -258,18 +265,6 @@ public class CalculatorGrid extends JPanel
         //btnClear.setMaximumSize(BTN_SIZE);
         btnClear.addActionListener((ActionEvent e) -> clearButtonClick());
         panel.add(btnClear);
-
-        CalculatorButton btnClearEntry = new CalculatorButton("CE");
-        btnClearEntry.setFont(BTN_FONT);
-        btnClearEntry.setPreferredSize(BTN_SIZE);
-        //btnClearEntry.setMaximumSize(BTN_SIZE);
-        panel.add(btnClearEntry);
-
-        CalculatorButton btnSave = new CalculatorButton("Save");
-        btnSave.setFont(BTN_FONT);
-        btnSave.setPreferredSize(BTN_SIZE);
-        //btnSave.setMaximumSize(BTN_SIZE);
-        panel.add(btnSave);
 
         CalculatorButton btnExit = new CalculatorButton("Quit");
         btnExit.setFont(BTN_FONT);
@@ -285,15 +280,15 @@ public class CalculatorGrid extends JPanel
 
     private void clearButtonClick()
     {
+        lastOperation = ButtonOperation.Unknown;
+        result = 0;
+        currentInput = 0;
+        inputLabel.setText("");
+        resultsLabel.setText("");
     }
 
     private void numberButtonClick(CalculatorButton button)
     {
-/*
-        String text = inputLabel.getText();
-        text += Integer.parseInt(button.getText());
-        inputLabel.setText(text);
-*/
         appendToInput(button.getText());
     }
 
