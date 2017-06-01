@@ -20,13 +20,37 @@ public class CalculatorGrid extends JPanel
     private static final int BTN_HEIGHT = 30;
     private static final Dimension BTN_SIZE = new Dimension(BTN_WIDTH, BTN_HEIGHT);
 
+    private JLabel resultsLabel;
+    private JLabel inputLabel;
+
     public CalculatorGrid()
     {
         this.setLayout(new GridLayout(0, 1));
         this.setPreferredSize(new Dimension(500, 350));
 
+        this.add(generateInputDisplayPanel());
+        this.add(generateResultsPanel());
         this.add(generateCalculatorButtonPanel());
         this.add(generateControlPanel());
+    }
+
+    private JPanel generateInputDisplayPanel()
+    {
+        GridLayout gridLayout = new GridLayout(0, 1);
+        JPanel panel = new JPanel(gridLayout);
+        inputLabel = new JLabel("");
+        inputLabel.setFont(BTN_FONT);
+        inputLabel.setPreferredSize(new Dimension(BTN_WIDTH * 4, BTN_HEIGHT));
+        panel.add(inputLabel);
+        return panel;
+    }
+
+    private JPanel generateResultsPanel()
+    {
+        JPanel panel = new JPanel();
+
+
+        return panel;
     }
 
     private JPanel generateCalculatorButtonPanel()
@@ -34,9 +58,9 @@ public class CalculatorGrid extends JPanel
         final int numRows = BUTTON_TEXTS.length;
         final int numCols = BUTTON_TEXTS[0].length;
 
-        GridLayout btnGrid = new GridLayout(numRows, numCols);
+        GridLayout gridLayout = new GridLayout(numRows, numCols);
         JPanel panel = new JPanel();
-        panel.setLayout(btnGrid);
+        panel.setLayout(gridLayout);
 
         for (int row = 0; row < numRows; row++)
         {
@@ -45,6 +69,7 @@ public class CalculatorGrid extends JPanel
                 JButton btn = new JButton(BUTTON_TEXTS[row][col]);
                 btn.setFont(BTN_FONT);
                 btn.setPreferredSize(BTN_SIZE);
+                btn.addActionListener((ActionEvent e) -> numberButtonClick(btn));
                 panel.add(btn);
             }
         }
@@ -53,9 +78,9 @@ public class CalculatorGrid extends JPanel
 
     private JPanel generateControlPanel()
     {
-        GridLayout controlGridLayout = new GridLayout(0, 4);
+        GridLayout gridLayout = new GridLayout(0, 4);
         JPanel panel = new JPanel();
-        panel.setLayout(controlGridLayout);
+        panel.setLayout(gridLayout);
         //Dimension bottomSize = new Dimension(BTN_WIDTH * 4, BTN_HEIGHT / 10);
         //panel.setPreferredSize(bottomSize);
         //panel.setMaximumSize(bottomSize);
@@ -88,6 +113,13 @@ public class CalculatorGrid extends JPanel
         panel.add(btnExit);
 
         return panel;
+    }
+
+    private void numberButtonClick(JButton button)
+    {
+        String text = inputLabel.getText();
+        text += Integer.parseInt(button.getText());
+        inputLabel.setText(text);
     }
 
 
