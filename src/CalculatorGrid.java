@@ -3,9 +3,6 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 
-/**
- * Created by fpmor on 5/31/2017.
- */
 public class CalculatorGrid extends JPanel
 {
     // Rows of buttons, arranged left-to-right in each row
@@ -26,6 +23,7 @@ public class CalculatorGrid extends JPanel
 
     private double currentInput = 0;
     private double result = 0;
+    private ButtonOperation lastOperation = ButtonOperation.Unknown;
 
 
     public CalculatorGrid()
@@ -92,7 +90,7 @@ public class CalculatorGrid extends JPanel
             {
                 String text = BUTTON_TEXTS[row][col];
 
-                JButton button = new JButton(text);
+                CalculatorButton button = new CalculatorButton(text);
                 button.setFont(BTN_FONT);
                 button.setPreferredSize(BTN_SIZE);
                 // If the button is a number, they can share a common click handler
@@ -102,7 +100,7 @@ public class CalculatorGrid extends JPanel
                 } else
                 {
                     // for non-number buttons, generate an appropriate click handler
-                    generateControlButtonClickHandler(button);
+                    generateMathOperationButtonClickHandler(button);
                 }
 
                 panel.add(button);
@@ -111,75 +109,138 @@ public class CalculatorGrid extends JPanel
         return panel;
     }
 
-    private void generateControlButtonClickHandler(JButton button)
+    private void generateMathOperationButtonClickHandler(CalculatorButton button)
     {
         String text = button.getText();
         switch (text)
         {
             case "+":
                 button.addActionListener((ActionEvent e) -> addButtonClick(button));
+                button.setOperation(ButtonOperation.Add);
                 break;
 
             case "-":
                 button.addActionListener((ActionEvent e) -> subtractButtonClick(button));
+                button.setOperation(ButtonOperation.Subtract);
                 break;
 
             case "*":
                 button.addActionListener((ActionEvent e) -> multiplyButtonClick(button));
+                button.setOperation(ButtonOperation.Multiply);
                 break;
 
             case "/":
                 button.addActionListener((ActionEvent e) -> divideButtonClick(button));
+                button.setOperation(ButtonOperation.Divide);
                 break;
 
             case ".":
                 button.addActionListener((ActionEvent e) -> decimalPointButtonClick(button));
+                button.setOperation(ButtonOperation.DecimalPoint);
                 break;
 
             case "=":
                 button.addActionListener((ActionEvent e) -> equalButtonClick(button));
+                button.setOperation(ButtonOperation.Equal);
                 break;
         }
     }
 
-    private void equalButtonClick(JButton button)
+    private String convertDoubleToMoneyString(double value)
     {
+        return String.format("%.2f", value);
     }
 
-    private void decimalPointButtonClick(JButton button)
+    private void equalButtonClick(CalculatorButton button)
     {
-        appendToInput(button.getText());
+        // get the last input
+        getLastInput();
+
+        appendToResults(" " + convertDoubleToMoneyString(currentInput));
+
+        // capture a copy of the "formula" before we replace it with the results
+        String formula = resultsLabel.getText().trim() + " =";
+
+        // handle the last input based on the last operation performed
+        performLastOperation();
+
+        // display the results instead of the formula
+        resultsLabel.setText(convertDoubleToMoneyString(result));
+
+        // show the formula where the input used to be
+        inputLabel.setText(formula);
     }
 
-    private void divideButtonClick(JButton button)
-    {
-        //appendToInput(button.getText());
-    }
-
-    private void multiplyButtonClick(JButton button)
-    {
-        //appendToInput(button.getText());
-    }
-
-    private void subtractButtonClick(JButton button)
-    {
-        //appendToInput(button.getText());
-    }
-
-    private void addButtonClick(JButton button)
+    private void getLastInput()
     {
         // get the input area as a number
         String input = inputLabel.getText();
         currentInput = Double.parseDouble(input);
+    }
+
+    private void performLastOperation()
+    {
+        switch (lastOperation)
+        {
+            case Add:
+                result += currentInput;
+                break;
+            case Subtract:
+                result -= currentInput;
+                break;
+            case Multiply:
+                result *= currentInput;
+                break;
+            case Divide:
+                result /= currentInput;
+                break;
+
+            case DecimalPoint:
+            case Equal:
+            case Clear:
+            case Unknown:
+                break;
+        }
+    }
+
+    private void decimalPointButtonClick(CalculatorButton button)
+    {
+        appendToInput(button.getText());
+    }
+
+    private void divideButtonClick(CalculatorButton button)
+    {
+        //appendToInput(button.getText());
+    }
+
+    private void multiplyButtonClick(CalculatorButton button)
+    {
+        //appendToInput(button.getText());
+    }
+
+    private void subtractButtonClick(CalculatorButton button)
+    {
+        //appendToInput(button.getText());
+    }
+
+    private void addButtonClick(CalculatorButton button)
+    {
+        // Get the last input value
+        //String input = inputLabel.getText();
+        //currentInput = Double.parseDouble(input);
+        getLastInput();
 
         // add it to the result
         result += currentInput;
 
         // display as a formula in the results area
-        appendToResults(" " + input + " " + button.getText());
+        appendToResults(" " + convertDoubleToMoneyString(currentInput) + " " + button.getText());
 
         // clear the input area
         clearInput();
+
+        // remember what was the last operation so that when the = button is clicked, we can properly handle the last input
+        lastOperation = button.getOperation();
     }
 
     private void appendToResults(String text)
@@ -203,25 +264,26 @@ public class CalculatorGrid extends JPanel
         //panel.setPreferredSize(bottomSize);
         //panel.setMaximumSize(bottomSize);
 
-        JButton btnClear = new JButton("Clear");
+        CalculatorButton btnClear = new CalculatorButton("Clear");
         btnClear.setFont(BTN_FONT);
         btnClear.setPreferredSize(BTN_SIZE);
         //btnClear.setMaximumSize(BTN_SIZE);
+        btnClear.addActionListener((ActionEvent e) -> clearButtonClick());
         panel.add(btnClear);
 
-        JButton btnClearEntry = new JButton("CE");
+        CalculatorButton btnClearEntry = new CalculatorButton("CE");
         btnClearEntry.setFont(BTN_FONT);
         btnClearEntry.setPreferredSize(BTN_SIZE);
         //btnClearEntry.setMaximumSize(BTN_SIZE);
         panel.add(btnClearEntry);
 
-        JButton btnSave = new JButton("Save");
+        CalculatorButton btnSave = new CalculatorButton("Save");
         btnSave.setFont(BTN_FONT);
         btnSave.setPreferredSize(BTN_SIZE);
         //btnSave.setMaximumSize(BTN_SIZE);
         panel.add(btnSave);
 
-        JButton btnExit = new JButton("Quit");
+        CalculatorButton btnExit = new CalculatorButton("Quit");
         btnExit.setFont(BTN_FONT);
         btnExit.setPreferredSize(BTN_SIZE);
         //btnExit.setMaximumSize(BTN_SIZE);
@@ -233,7 +295,11 @@ public class CalculatorGrid extends JPanel
         return panel;
     }
 
-    private void numberButtonClick(JButton button)
+    private void clearButtonClick()
+    {
+    }
+
+    private void numberButtonClick(CalculatorButton button)
     {
 /*
         String text = inputLabel.getText();
