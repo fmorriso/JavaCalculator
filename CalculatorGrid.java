@@ -271,7 +271,7 @@ public class CalculatorGrid extends JPanel
         btnClear.setFont(BTN_FONT);
         btnClear.setSize(BTN_SIZE);
         btnClear.setPreferredSize(BTN_SIZE);
-        btnClear.addActionListener((ActionEvent e) -> clearButtonClick());
+        btnClear.addActionListener((ActionEvent e) -> clearButtonClick(e));
         panel.add(btnClear);
 
         CalculatorButton btnExit = new CalculatorButton("Quit");
@@ -286,7 +286,7 @@ public class CalculatorGrid extends JPanel
         return panel;
     }
 
-    private void clearButtonClick()
+    private void clearButtonClick(ActionEvent e)
     {
         lastOperation = ButtonOperation.Unknown;
         result = 0;
