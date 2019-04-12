@@ -15,12 +15,13 @@ public class CalculatorGrid extends JPanel
             {"0", ".", "/", "="}
     };
     private static final Font BTN_FONT = new Font(Font.SANS_SERIF, Font.BOLD, 32);
-    private static final int BTN_WIDTH = 20;
-    private static final int BTN_HEIGHT = 40;
-    private static final Dimension BTN_SIZE = new Dimension(BTN_WIDTH, BTN_HEIGHT);
+    private static  int BTN_WIDTH = 20;
+    private static  int BTN_HEIGHT = 40;
+    private static  Dimension BTN_SIZE;
 
     private JLabel resultsLabel;
     private JLabel inputLabel;
+    private Dimension panelSize;
 
     private double currentInput = 0;
     private double result = 0;
@@ -30,7 +31,13 @@ public class CalculatorGrid extends JPanel
     public CalculatorGrid(JFrame frame)
     {
         this.setLayout(new GridLayout(0, 1));
-        this.setPreferredSize(frame.getSize());
+        panelSize = frame.getSize();
+        this.setPreferredSize(panelSize);
+        
+        BTN_HEIGHT = panelSize.height / 10;
+        BTN_WIDTH = BTN_HEIGHT / 2;
+        BTN_SIZE = new Dimension(BTN_WIDTH, BTN_HEIGHT);
+        System.out.format("Button size=%s%n", BTN_SIZE);
 
         this.add(generateInputDisplayPanel());
         this.add(generateResultsPanel());
@@ -96,6 +103,7 @@ public class CalculatorGrid extends JPanel
 
                 CalculatorButton button = new CalculatorButton(text);
                 button.setFont(BTN_FONT);
+                button.setSize(BTN_SIZE);
                 button.setPreferredSize(BTN_SIZE);
                 // If the button is a number, they can share a common click handler
                 if (isInteger(text))
@@ -150,6 +158,7 @@ public class CalculatorGrid extends JPanel
         }
     }
 
+    // convert a double to a string with two decimal places (like money)
     private String convertDoubleToMoneyString(double value)
     {
         return String.format("%.2f", value);
@@ -260,12 +269,14 @@ public class CalculatorGrid extends JPanel
 
         CalculatorButton btnClear = new CalculatorButton("Clear");
         btnClear.setFont(BTN_FONT);
+        btnClear.setSize(BTN_SIZE);
         btnClear.setPreferredSize(BTN_SIZE);
         btnClear.addActionListener((ActionEvent e) -> clearButtonClick());
         panel.add(btnClear);
 
         CalculatorButton btnExit = new CalculatorButton("Quit");
         btnExit.setFont(BTN_FONT);
+        btnExit.setSize(BTN_SIZE);
         btnExit.setPreferredSize(BTN_SIZE);
         btnExit.addActionListener(
                 (ActionEvent e) -> System.exit(0)
