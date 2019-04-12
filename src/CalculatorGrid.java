@@ -3,6 +3,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 
+@SuppressWarnings("serial")
 public class CalculatorGrid extends JPanel
 {
     // Rows of buttons, arranged left-to-right in each row
@@ -68,6 +69,7 @@ public class CalculatorGrid extends JPanel
     {
         try
         {
+            @SuppressWarnings("unused")
             int i = Integer.parseInt(text.trim());
         } catch (NumberFormatException ex)
         {

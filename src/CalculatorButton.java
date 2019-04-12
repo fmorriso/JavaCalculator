@@ -1,6 +1,7 @@
 import javax.swing.*;
 
 // extended JButton that remembers which calculator operation it performs
+@SuppressWarnings("serial")
 public class CalculatorButton extends JButton
 {
     private ButtonOperation operation;
