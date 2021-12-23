@@ -1,5 +1,8 @@
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
+//
+import javax.swing.JFrame;
 
 public class Main {
 
