@@ -1,7 +1,14 @@
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+//
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.Border;
-import java.awt.*;
-import java.awt.event.*;
 
 @SuppressWarnings("serial")
 public class CalculatorGrid extends JPanel
@@ -33,16 +40,16 @@ public class CalculatorGrid extends JPanel
         this.setLayout(new GridLayout(0, 1));
         panelSize = frame.getSize();
         this.setPreferredSize(panelSize);
-        
+
         BTN_HEIGHT = panelSize.height / 10;
         BTN_WIDTH = BTN_HEIGHT / 2;
-        BTN_SIZE = new Dimension(BTN_WIDTH, BTN_HEIGHT);        
+        BTN_SIZE = new Dimension(BTN_WIDTH, BTN_HEIGHT);
         System.out.format("Button size=%s%n", BTN_SIZE);
 
         // scale button font to fit the button size
         int buttonFontSize = (int) ( BTN_HEIGHT / 3 );
         BTN_FONT = new Font(Font.SANS_SERIF, Font.BOLD, buttonFontSize);
-        
+
         this.add(generateInputDisplayPanel());
         this.add(generateResultsPanel());
         this.add(generateCalculatorButtonPanel());

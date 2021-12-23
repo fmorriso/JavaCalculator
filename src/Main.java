@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.format("java version: %s%n",System.getProperty("java.version"));
+		System.out.format("java version: %s%n", System.getProperty("java.version"));
 		// make size decisions based on the current screen size
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension screenSize = tk.getScreenSize();

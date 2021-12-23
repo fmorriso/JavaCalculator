@@ -1,5 +1,7 @@
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Font;
+
+import javax.swing.JButton;
 
 // extended JButton  so that each one remembers which calculator operation it performs
 public class CalculatorButton extends JButton
