@@ -14,8 +14,8 @@ public class Main {
 
 		// Define the size of the JFrame as a rectangle that is a percentage of the
 		// available screen area and a multiple of 100.
-		final int frameHeight = (int) (screenSize.height * 75.00 / 100) / 100 * 100;
-		final int frameWidth = ((int) (frameHeight * 3.0 / 4)) / 100 * 100;
+		final int frameHeight = (int) (screenSize.height * 0.75) / 100 * 100;
+		final int frameWidth = (int) (frameHeight * 1.25) / 100 * 100;
 
 		JFrame frame = new JFrame("Calculator");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

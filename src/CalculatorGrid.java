@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-@SuppressWarnings("serial")
+// @SuppressWarnings("serial")
 public class CalculatorGrid extends JPanel
 {
     // Rows of buttons, arranged left-to-right in each row
