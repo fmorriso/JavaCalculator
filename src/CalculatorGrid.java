@@ -31,9 +31,9 @@ public class CalculatorGrid extends JPanel
     private Dimension panelSize;
 
     private double currentInput = 0;
-    private double result = 0;
+    //private double result = 0;
     private ButtonOperation lastOperation = ButtonOperation.Unknown;
-
+    private Calculator calculator;
 
     public CalculatorGrid(JFrame frame)
     {
@@ -54,6 +54,8 @@ public class CalculatorGrid extends JPanel
         this.add(generateResultsPanel());
         this.add(generateCalculatorButtonPanel());
         this.add(generateControlPanel());
+
+        calculator = new Calculator();
     }
 
     private JPanel generateInputDisplayPanel()
@@ -187,7 +189,7 @@ public class CalculatorGrid extends JPanel
         performLastOperation();
 
         // display the results instead of the formula
-        resultsLabel.setText(convertDoubleToMoneyString(result));
+        resultsLabel.setText(convertDoubleToMoneyString(calculator.getResult()));
 
         // show the formula where the input used to be
         inputLabel.setText(formula);
@@ -196,9 +198,10 @@ public class CalculatorGrid extends JPanel
     private void getLastInput()
     {
         // get the input area as a number
-        String input = inputLabel.getText();
+        String input = inputLabel.getText(); // ERROR: this may have a mix of numbers and operations at this point
+        System.out.println("input=" + input + ", result=" + calculator.getResult());
         currentInput = Double.parseDouble(input);
-        //System.out.println("currentInput=" + currentInput + ", result=" + result);
+        System.out.println("currentInput=" + currentInput + ", result=" + calculator.getResult());
     }
 
     // If there is a pending last operation, perform it.
@@ -208,19 +211,23 @@ public class CalculatorGrid extends JPanel
         switch (lastOperation)
         {
             case Add:
-                result += currentInput;
+                // result += currentInput;
+                calculator.setResult(calculator.add( calculator.getResult(), currentInput ));
                 break;
 
             case Subtract:
-                result -= currentInput;
+                // result -= currentInput;
+                calculator.setResult(calculator.subtract(calculator.getResult(), currentInput));
                 break;
 
             case Multiply:
-                result *= currentInput;
+                // result *= currentInput;
+                calculator.setResult(calculator.multiply(calculator.getResult(), currentInput));
                 break;
 
             case Divide:
-                result /= currentInput;
+                // result /= currentInput;
+                calculator.setResult(calculator.divide(calculator.getResult(), currentInput));
                 break;
 
             case DecimalPoint:
@@ -229,7 +236,8 @@ public class CalculatorGrid extends JPanel
                 break;
 
             case Unknown:
-                result = currentInput;
+                //result = currentInput;
+                calculator.setResult(currentInput);
                 break;
         }
     }
@@ -292,7 +300,8 @@ public class CalculatorGrid extends JPanel
     private void clearButtonClick(ActionEvent e)
     {
         lastOperation = ButtonOperation.Unknown;
-        result = 0;
+        // result = 0;
+        calculator.setResult(0);
         currentInput = 0;
         inputLabel.setText("");
         resultsLabel.setText("");

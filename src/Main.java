@@ -55,7 +55,7 @@ public class Main
 		Dimension size = getScaledSize(smallScreen);
 		if(bigScreen != null)
 		{
-			size= getScaledSize(bigScreen);	
+			size = getScaledSize(bigScreen);	
 		}
 		
 		frame.setSize(size);
