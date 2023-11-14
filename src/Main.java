@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 public class Main
 {
 
-	private static final double SCREEN_PERCENTAGE = 0.85;
+	private static final double SCREEN_PERCENTAGE = 0.6;
 
 	public static void main(String[] args)
 	{

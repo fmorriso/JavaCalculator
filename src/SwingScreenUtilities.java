@@ -1,7 +1,7 @@
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.*;
 
-public class SwingScreenUtilities {
+public class SwingScreenUtilities
+{
     /**
      * Gets a rectangle that is scaled to a percentage of available device screen
      * size,
@@ -24,19 +24,20 @@ public class SwingScreenUtilities {
      * @param pct        - the percentage (> 0 and < 1.0) of available device screen
      *                   size to use.
      * @param multipleOf - value to round up the scaled size to be a multiple of.
-	 * @param wantSquare - true if the scaled size should have equal width and height,
-	 *                     using the smaller of the device width and height.
+     * @param wantSquare - true if the scaled size should have equal width and height,
+     *                   using the smaller of the device width and height.
      * @return - a Dimension object that holds the scaled width and height.
      */
     public static Dimension getScaledSize(double pct, int multipleOf, boolean wantSquare)
     {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension screenSize = getDefaultScreenSize();
         // sanity check for unreasonable percentage values
         if (pct < 0.1 || pct > 1)
             return screenSize;
 
         Dimension frameSize = getDimension(pct, multipleOf);
-        if (wantSquare) {
+        if (wantSquare)
+        {
             // make the frame size square
             int n = (int) (Math.min(frameSize.getWidth(), frameSize.getHeight()));
             frameSize.setSize(n, n);
@@ -56,7 +57,7 @@ public class SwingScreenUtilities {
      */
     private static Dimension getDimension(double pct, int multipleOf)
     {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension screenSize = getDefaultScreenSize();
         // sanity check for unreasonable percentage values
         if (pct < 0.1 || pct > 1)
             return screenSize;
@@ -69,6 +70,19 @@ public class SwingScreenUtilities {
         // System.out.format("scaled frame: width=%d, height=%d%n", frameWidth,
         // frameHeight);
         return frameSize;
+    }
+
+    /**
+     * Gets the default screen size of the device this program is running on.
+      * @return Dimension containing the default screen width and height.
+     */
+    private static Dimension getDefaultScreenSize()
+    {
+        GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice device = genv.getDefaultScreenDevice();
+        DisplayMode mode = device.getDisplayMode();
+
+        return new Dimension(mode.getWidth(), mode.getHeight());
     }
 
 }
