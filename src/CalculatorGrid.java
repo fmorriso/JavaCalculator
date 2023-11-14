@@ -11,15 +11,26 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 // @SuppressWarnings("serial")
+/**
+ * 
+ * @author Fred Morrison
+ * @implNote extends JPanel for the purposes of using a Grid Layout
+ */
 public class CalculatorGrid extends JPanel
 {
-    // Rows of buttons, arranged left-to-right in each row
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	// Rows of buttons, arranged left-to-right in each row
     // as a two-dimensional array
     private static final String[][] BUTTON_TEXTS = {
+
             {"7", "8", "9", "+"},
             {"4", "5", "6", "-"},
             {"1", "2", "3", "*"},
-            {"0", ".", "/", "="}
+            {"0", ".", "/", "="},
+
     };
     private static Font BTN_FONT = new Font(Font.SANS_SERIF, Font.BOLD, 32);
     private static int BTN_WIDTH = 20;

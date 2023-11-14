@@ -5,15 +5,12 @@ import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
 //
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-//
 import javax.swing.JFrame;
 
 public class Main
 {
+
+	private static final double SCREEN_PERCENTAGE = 0.85;
 
 	public static void main(String[] args)
 	{
@@ -30,7 +27,7 @@ public class Main
 		{
 			 bigScreen = gds[1];
 		}
-		// bigScreen = null;
+		bigScreen = null;
 		
 		Rectangle virtualBounds = new Rectangle();
 		int n = 0;
@@ -52,16 +49,16 @@ public class Main
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new GridLayout(1, 1));
 		
-		Dimension size = getScaledSize(smallScreen);
+		Dimension size = SwingScreenUtilities.getScaledSize( SCREEN_PERCENTAGE, 100, true);
 		if(bigScreen != null)
 		{
-			size = getScaledSize(bigScreen);	
+			size = SwingScreenUtilities.getScaledSize(SCREEN_PERCENTAGE, 100, true);	
 		}
 		
 		frame.setSize(size);
 		frame.setPreferredSize(size);
 		
-		frame.getContentPane().add(new CalculatorGrid(frame));
+		frame.getContentPane().add( new CalculatorGrid(frame) );
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 				
@@ -78,23 +75,8 @@ public class Main
 		frame.setVisible(true);
 	}
 	
-	public static Dimension getScaledSize(GraphicsDevice gd)
-	{
-		GraphicsConfiguration gc = gd.getDefaultConfiguration();
-		
-		Rectangle bounds = gc.getBounds();		
-		int width = bounds.width;
-		int height = bounds.height;		
-		System.out.format("Screen: %d width x %d height%n", width, height);
-		
-		// rescale based on selected screen
-		int frameHeight = (int) (height * 0.90) / 100 * 100;
-		int frameWidth = (int) (frameHeight * 1.25) / 100 * 100;
-		System.out.format("new width %d x new height %d%n", frameWidth, frameHeight);
-		Dimension size = new Dimension(frameWidth, frameHeight);
-		return size;
-	}
-	
+
+
 	public static void showOnScreen(GraphicsDevice gd, JFrame frame)
 	{
 		// get screen size
@@ -111,7 +93,8 @@ public class Main
 		frame.setLocation(x, y);
 	}
 	
-	public static void showOnScreen(int screen, JFrame frame ) {
+	public static void showOnScreen(int screen, JFrame frame ) 
+	{
 	    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 	    GraphicsDevice[] gd = ge.getScreenDevices();
 	    int width = 0, height = 0;

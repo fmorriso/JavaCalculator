@@ -1,12 +1,16 @@
 import java.awt.Dimension;
 import java.awt.Font;
-
+//
 import javax.swing.JButton;
 
-// extended JButton  so that each one remembers which calculator operation it performs
+// extended JButton so that each one remembers which calculator operation it performs
 public class CalculatorButton extends JButton
 {
-    private ButtonOperation operation;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private ButtonOperation operation;
 
     public CalculatorButton(String text)
     {
@@ -14,7 +18,8 @@ public class CalculatorButton extends JButton
         operation = ButtonOperation.Unknown;
     }
 
-    public CalculatorButton(String text, Font font, Dimension size) {
+    public CalculatorButton(String text, Font font, Dimension size) 
+    {
         super(text);
         this.setFont(font);
         this.setSize(size);
